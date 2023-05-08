@@ -1,4 +1,14 @@
-# CMSC335Final
-CMSC335 Final Project
+# CMSC335 Final Project
+## App Description
+We are building ____ 
+<br /><br />
+## Team Members
 
-What are we building? That's a great question.
+- Joshua Kalampanayil (jkalam)
+- Riya Kukadia (rkukadia)
+<br /><br />
+## API Links
+- Insert Link here 
+<br /><br />
+## YouTube Demo Video
+- Insert Link here
