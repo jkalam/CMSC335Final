@@ -18,7 +18,9 @@ process.stdin.setEncoding("utf8");
 app.get("/", (request, response) => { 
     response.render("index");
 });
-
+app.get("/search", (request, response) => { 
+    response.render("search");
+});
 app.get("/reset", (request, response) => {
     response.render("reset");
 })
