@@ -19,4 +19,12 @@ app.get("/", (request, response) => {
     response.render("index");
 });
 
+app.get("/reset", (request, response) => {
+    response.render("reset");
+})
+
+app.post("/reset", (request, response) => {
+    response.render("resetConfirmation", {count: 5});
+})
+
 app.listen(portNumber);
