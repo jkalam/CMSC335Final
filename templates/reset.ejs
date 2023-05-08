@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Admin GPA</title>
+</head>
+
+<body>
+	<h1>Removing All Applicants</h1>
+	<form action=<%- actionPath %> method="post">
+		<input type="submit" value="Remove all applicants">
+	</form> 
+	<hr>
+	<a href="/">HOME</a>
+</body>
+
+<script>
+	window.onsubmit = popup;
+	
+	function popup() {
+		let message = "Are you sure you want to remove all applications?\n"
+
+    	return confirm(message);
+	} 
+	
+</script>
+
+</html>
