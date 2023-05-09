@@ -34,17 +34,26 @@ app.post("/searchResults", (request, response) => {
             let newsArticles = "";
 
             const link = `https://newsdata.io/api/1/news?apikey=${apiKey}&q=${query}&country=${country}&category=${category}`;
-            console.log(link)
             const result = await fetch(link);
             const json = await result.json();
 
-            if (json.totalResults === 0) {
-                newsArticles += "Uh oh! There are no news articles associated with that title. Please try searching again.";
+            if (json.totalResults === 0 || query.length === 0) {
+                newsArticles += "Uh oh! There are no news articles associated with that title. Please try searching again.<br><br>";
+
+                response.render("searchResults", {newsArticles});
+            } else {
+                newsArticles += "Here are the news articles that match your search query! <br>";
+                newsArticles += "<table><tr><th>Title</th><th>Date Published</th><th>Link to Article</th></tr>";
+
+                (json.results).forEach(article => {
+                    newsArticles += `<tr><td>${article.title}</td><td>${article.pubDate}</td>
+                    <td>click <a href=${article.link} target="_blank">here</a> for the article</td></tr>`;
+                });
+
+                newsArticles += "</table>";
 
                 response.render("searchResults", {newsArticles});
             }
-            console.log("***** Data Retrieved *****");
-            console.log(json);
           } catch (e) {
             console.log("ERROR, ERROR: " + e);
           }
