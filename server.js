@@ -7,12 +7,18 @@ app.set("views", path.resolve(__dirname, "templates"));
 app.set("view engine", "ejs");
 
 require("dotenv").config({ path: path.resolve(__dirname, '.env') })
+
 const userName = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
 const db = process.env.MONGO_DB_NAME;
 const collection = process.env.MONGO_COLLECTION;
 const apiKey = process.env.NEWS_API_KEY;
 
+/* The database and collection */
+const databaseAndCollection = {db: db, collection: collection};
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = `mongodb+srv://${userName}:${password}@cluster0.rrf80uf.mongodb.net/?retryWrites=true&w=majority`;
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 app.use(bodyParser.urlencoded({extended:false}));
 process.stdin.setEncoding("utf8");
@@ -65,8 +71,29 @@ app.get("/reset", (request, response) => {
     response.render("reset");
 });
 
+/* removal confirmation page */
 app.post("/reset", (request, response) => {
-    response.render("resetConfirmation", {count: 5});
+    /* removing all entries from the database */
+    (async () => {
+        try {
+            await client.connect();
+
+            /* executing the delete call */
+            const result = await client.db(databaseAndCollection.db)
+            .collection(databaseAndCollection.collection)
+            .deleteMany({});
+
+            /* getting the total number of entries deleted */
+            const count = result.deletedCount;
+
+            /* render confirmation page with deleted count */
+            response.render("resetConfirmation", {count});
+        } catch (e) {
+            console.error(e);
+        } finally {
+            await client.close();
+        }
+    })();
 });
 
 app.listen(portNumber);
