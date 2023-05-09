@@ -39,7 +39,7 @@ app.post("/searchResults", (request, response) => {
 
             let newsArticles = "";
 
-            const link = `https://newsdata.io/api/1/news?apikey=${apiKey}&q=${query}&country=${country}&category=${category}`;
+            const link = `https://newsdata.io/api/1/news?apikey=${apiKey}&qInTitle=${query}&country=${country}&category=${category}`;
             const result = await fetch(link);
             const json = await result.json();
 
@@ -49,7 +49,7 @@ app.post("/searchResults", (request, response) => {
                 response.render("searchResults", {newsArticles});
             } else {
                 newsArticles += "Here are the news articles that match your search query! <br>";
-                newsArticles += "<table><tr><th>Title</th><th>Date Published</th><th>Link to Article</th></tr>";
+                newsArticles += "<table border=1><tr><th>Title</th><th>Date Published</th><th>Link to Article</th></tr>";
 
                 (json.results).forEach(article => {
                     newsArticles += `<tr><td>${article.title}</td><td>${article.pubDate}</td>
