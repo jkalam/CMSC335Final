@@ -31,10 +31,18 @@ app.post("/searchResults", (request, response) => {
     (async() => {
         try {
 
+            let newsArticles = "";
+
             const link = `https://newsdata.io/api/1/news?apikey=${apiKey}&q=${query}&country=${country}&category=${category}`;
             console.log(link)
             const result = await fetch(link);
             const json = await result.json();
+
+            if (json.totalResults === 0) {
+                newsArticles += "Uh oh! There are no news articles associated with that title. Please try searching again.";
+
+                response.render("searchResults", {newsArticles});
+            }
             console.log("***** Data Retrieved *****");
             console.log(json);
           } catch (e) {
