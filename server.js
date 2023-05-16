@@ -38,6 +38,7 @@ app.post("/searchResults", (request, response) => {
         try {
 
             let newsArticles = "";
+            let newsArray = []
 
             const link = `https://newsdata.io/api/1/news?apikey=${apiKey}&qInTitle=${query}&country=${country}&category=${category}`;
             const result = await fetch(link);
@@ -51,13 +52,17 @@ app.post("/searchResults", (request, response) => {
                 newsArticles += "Here are the news articles that match your search query! <br><br>";
                 newsArticles += "<table border=3 ><tr><th>Title</th><th>Date Published</th><th>Link to Article</th></tr>";
 
+                
                 (json.results).forEach(article => {
+                    newsArray.push({"title":article.title, "pubDate":article.pubDate, "link":article.link})
                     newsArticles += `<tr><td>${article.title}</td><td>${article.pubDate}</td>
                     <td>click <a href=${article.link} target="_blank">here</a> for the article</td></tr>`;
                 });
 
                 newsArticles += "</table>";
-
+                await client.db(databaseAndCollection.db)
+                        .collection(databaseAndCollection.collection)
+                        .insertMany(newsArray);
                 response.render("searchResults", {newsArticles});
             }
           } catch (e) {
@@ -65,6 +70,33 @@ app.post("/searchResults", (request, response) => {
           }
     })();
 
+});
+
+app.get("/history", (request, response) => {
+    (async() => {
+        const cursor = client.db(databaseAndCollection.db)
+        .collection(databaseAndCollection.collection)
+        .find({});
+        const result = await cursor.toArray();
+        let newsArticles = "";
+
+        if (result.length === 0) {
+            newsArticles += `<strong>You have not made any searches yet!!</strong>`;
+            response.render("searchResults", {newsArticles});
+
+        } else {
+            newsArticles += "Here are the news articles that you have read before! <br><br>";
+            newsArticles += "<table border=3 ><tr><th>Title</th><th>Date Published</th><th>Link to Article</th></tr>";
+
+            
+            (result).forEach(article => {
+                newsArticles += `<tr><td>${article.title}</td><td>${article.pubDate}</td>
+                <td>click <a href=${article.link} target="_blank">here</a> for the article</td></tr>`;
+            });
+            newsArticles += "</table>";
+        }
+        response.render("history", {newsArticles});
+    })();
 });
 
 app.get("/reset", (request, response) => {
