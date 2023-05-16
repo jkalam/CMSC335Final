@@ -44,12 +44,12 @@ app.post("/searchResults", (request, response) => {
             const json = await result.json();
 
             if (json.totalResults === 0 || query.length === 0) {
-                newsArticles += "Uh oh! There are no news articles associated with that title. Please try searching again.<br><br>";
+                newsArticles += `Uh oh! There are no news articles from the <strong>${category}</strong> category containing <strong>${query}</strong> in their title. Please return home to search again.<br><br>`;
 
                 response.render("searchResults", {newsArticles});
             } else {
-                newsArticles += "Here are the news articles that match your search query! <br>";
-                newsArticles += "<table border=1><tr><th>Title</th><th>Date Published</th><th>Link to Article</th></tr>";
+                newsArticles += "Here are the news articles that match your search query! <br><br>";
+                newsArticles += "<table border=3 ><tr><th>Title</th><th>Date Published</th><th>Link to Article</th></tr>";
 
                 (json.results).forEach(article => {
                     newsArticles += `<tr><td>${article.title}</td><td>${article.pubDate}</td>

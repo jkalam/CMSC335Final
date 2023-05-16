@@ -4,11 +4,13 @@
     <title>Search</title>
 </head>
 <body>
+    <h1 style="color: palevioletred">Search Page</h1>
+    <h2>Unless stated otherwise, all of the following fields below are required!</h2>
     <form action="http://localhost:5001/searchResults" method="post">
-        <label>Enter searchword: <input type="text" name="query"/></label>
+        <label>Enter at least one word to search for among all news article titles: <input type="text" name="query" required></label>
         <br>
         <br>
-        Pick a category of your choice
+        Pick a category to filter articles from:
         <select name="category" required>
             <option value="business">Business</option>
             <option value="entertainment">Entertainment</option>
@@ -18,7 +20,7 @@
         </select>
         <br>
         <br>
-        Pick a Country
+        Pick a country to filter articles from:
         <select name="country" required>
             <option value="us">United States of America</option>
             <option value="gb">United Kingdom</option>
@@ -27,7 +29,10 @@
             <option value="mx">Mexico</option>
         </select>
 
-        <input type="submit" value="Search">
+        <br><br>
+
+        <input type="submit" value="Search for matching articles!">
+        <input type="reset" value="Reset search form">
 
 
 
