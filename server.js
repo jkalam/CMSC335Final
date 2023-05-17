@@ -69,7 +69,6 @@ app.post("/searchResults", (request, response) => {
             console.log("ERROR, ERROR: " + e);
           }
     })();
-
 });
 
 app.get("/history", (request, response) => {
@@ -84,7 +83,7 @@ app.get("/history", (request, response) => {
             newsArticles += `<strong>You have not made any searches yet!!</strong>`;
 
         } else {
-            newsArticles += "Here are the news articles that you have read before! <br><br>";
+            newsArticles += "Here are the news articles that you have seen before! <br><br>";
             newsArticles += "<table border=3 ><tr><th>Title</th><th>Date Published</th><th>Link to Article</th></tr>";
             
             (result).forEach(article => {
@@ -101,22 +100,17 @@ app.get("/reset", (request, response) => {
     response.render("reset");
 });
 
-/* removal confirmation page */
 app.post("/reset", (request, response) => {
-    /* removing all entries from the database */
     (async () => {
         try {
             await client.connect();
 
-            /* executing the delete call */
             const result = await client.db(databaseAndCollection.db)
             .collection(databaseAndCollection.collection)
             .deleteMany({});
 
-            /* getting the total number of entries deleted */
             const count = result.deletedCount;
 
-            /* render confirmation page with deleted count */
             response.render("resetConfirmation", {count});
         } catch (e) {
             console.error(e);
