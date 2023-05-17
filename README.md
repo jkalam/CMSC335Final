@@ -20,4 +20,4 @@ We are using the NewsData API, which gathers information from over 12000 news so
 
 
 ## YouTube Demo Video
-- Insert Link here
+[Demo Video](https://www.youtube.com/watch?v=25wcNAZ6QAA)
