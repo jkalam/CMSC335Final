@@ -82,12 +82,10 @@ app.get("/history", (request, response) => {
 
         if (result.length === 0) {
             newsArticles += `<strong>You have not made any searches yet!!</strong>`;
-            response.render("searchResults", {newsArticles});
 
         } else {
             newsArticles += "Here are the news articles that you have read before! <br><br>";
             newsArticles += "<table border=3 ><tr><th>Title</th><th>Date Published</th><th>Link to Article</th></tr>";
-
             
             (result).forEach(article => {
                 newsArticles += `<tr><td>${article.title}</td><td>${article.pubDate}</td>
