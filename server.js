@@ -122,8 +122,6 @@ app.post("/reset", (request, response) => {
             response.render("resetConfirmation", {count});
         } catch (e) {
             console.error(e);
-        } finally {
-            await client.close();
         }
     })();
 });
